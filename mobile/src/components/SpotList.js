@@ -3,7 +3,6 @@ import { withNavigation } from 'react-navigation';
 import { View, StyleSheet, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 
 import api from '../services/api';
-import { bold } from 'ansi-colors';
 
 function SpotList({ tech, navigation }) {
 
@@ -13,7 +12,7 @@ function SpotList({ tech, navigation }) {
       async function loadSpots() {
          const response = await api.get('/spots', {
             params: { tech }
-         })
+         });
 
          setSpots(response.data);
       }
@@ -39,7 +38,7 @@ function SpotList({ tech, navigation }) {
                   <Image style={styles.thumbnail} source={{uri: item.thumbnail_url}} />
                   <Text style={styles.company}>{item.company}</Text>
                   <Text style={styles.price}>{item.price ? `R$${item.price}/dia` : 'GRATUITO'}</Text>
-                  <TouchableOpacity onPress={() => handleNavigate(item._id)} style={styles.button}>
+                  <TouchableOpacity style={styles.button} onPress={() => handleNavigate(item._id)}>
                      <Text style={styles.buttonText}>Solicitar reserva</Text>
                   </TouchableOpacity>
                </View>
@@ -102,17 +101,4 @@ const styles = StyleSheet.create({
 })
 
 export default withNavigation(SpotList);
-
-
-/* Apenas para saber: dessa forma passa todas as props
-export default function SpotList( props ) {
-   return <Text>{props.tech}</Text>
-}
-No proximo pega apenas a propriedade tech, que é a propriedade definida no List.js
-
-export default function SpotList({ tech }) {
-   return <Text>{tech}</Text>
-
-}
-*/
 

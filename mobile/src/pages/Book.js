@@ -5,17 +5,17 @@ import api from '../services/api';
 
 export default function Book({ navigation }) {
    const [date, setDate] = useState('');
+
    const id = navigation.getParam('id');
 
    async function handleSubmit() {
-      console.log('Submit');
       const user_id = await AsyncStorage.getItem('user');
 
       await api.post(`/spots/${id}/bookings`, {
          date
       }, {
-         header: { user_id }
-      })
+         headers: { user_id }
+      });
 
       Alert.alert('Solicitação de reserva enviada');
 
@@ -33,7 +33,6 @@ export default function Book({ navigation }) {
             style={styles.input}
             placeholder="Qual data você quer reservar?"
             placeholderTextColor="#999"
-            keyboardType="email-address"
             autoCapitalize="words"
             autoCorrect={false}
             value={date}

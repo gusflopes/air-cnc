@@ -7,7 +7,7 @@ Developed following Rocketseat's Course 'Omnistack 9'
  - Mobile: React Native
 
  ## Second Commit - Advanced Features
- - Pending;
+ - Socket.IO working: real time notifications about the Booking/Answer;
 
  ## Third Commit - review and adjustments
  - Pending

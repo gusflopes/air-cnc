@@ -1,12 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ScrollView, Text, StyleSheet, Image, AsyncStorage, Platform, StatusBar } from 'react-native';
+import socketio from 'socket.io-client';
+import { Alert, SafeAreaView, ScrollView, Text, StyleSheet, Image, AsyncStorage, Platform, StatusBar } from 'react-native';
 
 import SpotList from '../components/SpotList';
 
 import logo from '../assets/logo.png';
 
+// navigation as parameter
 export default function List() {
    const [techs, setTechs] = useState([]);
+
+   useEffect(() => {
+      AsyncStorage.getItem('user').then(user_id => {
+         const socket = socketio('http://192.168.56.1:3333', {
+            query: { user_id }
+         })
+
+         socket.on('booking_reponse', booking => {
+            Alert.alert(`Sua reserva em ${booking.spot.company} em ${booking.date} foi ${booking.approved ? 'APROVADA' : 'REJEITADA'}`);
+         })
+      })
+   }, []);
 
    useEffect(() => {
       AsyncStorage.getItem('techs').then(storagedTechs => {
@@ -21,9 +35,8 @@ export default function List() {
       <SafeAreaView style={styles.container}>
          <Image style={styles.logo} source={logo} />
          <ScrollView>
-            {techs.map(tech => <SpotList key={tech} tech={tech} />)}
+            {techs.map(tech => (<SpotList key={tech} tech={tech} />))}
          </ScrollView>
-         <Text></Text>
       </SafeAreaView>
    )
 }
@@ -40,4 +53,4 @@ const styles = StyleSheet.create({
       alignSelf: "center",
       marginTop: 10,
    },
-})
+});

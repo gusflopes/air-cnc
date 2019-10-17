@@ -18,7 +18,7 @@ const SpotSchema = new mongoose.Schema({
 //Necessário alterar o IP da URL a ser retornada
 
 SpotSchema.virtual('thumbnail_url').get(function() {
-   return `http://192.168.56.1:3333/files/${this.thumbnail}`
+   return `http://localhost:3333/files/${this.thumbnail}`
 })
 
 module.exports = mongoose.model('Spot', SpotSchema);

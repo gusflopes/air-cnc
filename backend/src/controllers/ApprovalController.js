@@ -9,8 +9,12 @@ module.exports = {
       booking.approved = true;
 
       await booking.save();
+      
+      console.log(req.connectedUsers);
 
       const bookingUserSocket = req.connectedUsers[booking.user];
+
+      console.log(`bookingUserSocket: ${bookingUserSocket}`);
 
       if (bookingUserSocket) {
          req.io.to(bookingUserSocket).emit('booking_reponse', booking);
